@@ -1,5 +1,6 @@
 import time
 from src.core.transport.base_transport import ITransport
+from src.interaction.locators.operator_locators import OperatorCliPatterns # <-- Импорт
 
 class LinuxOperatorCLI:
     def __init__(self, transport: ITransport) -> None:
@@ -22,9 +23,10 @@ class LinuxOperatorCLI:
         raise TimeoutError(f"Строка '{text}' не появилась в консоли оператора за {timeout}с. Буфер: {self.buffer}")
 
     def connect_to_client(self, code: str) -> None:
-        self.wait_for_output("Enter connection code:")
+        # Используем паттерны из репозитория локаторов
+        self.wait_for_output(OperatorCliPatterns.PROMPT_ENTER_CODE)
         self.transport.write_line(code)
-        self.wait_for_output("Session established")
+        self.wait_for_output(OperatorCliPatterns.STATUS_SESSION_ESTABLISHED)
 
     def shutdown(self) -> None:
         self.transport.terminate()

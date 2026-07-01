@@ -49,27 +49,27 @@ addopts = -v --tb=short
 class ITransport(ABC):
     @abstractmethod
     def start(self, command: list[str]) -> None:
-        \"\"\"Запускает процесс.\"\"\"
+        """Запускает процесс."""
         pass
 
     @abstractmethod
     def write_line(self, data: str) -> None:
-        \"\"\"Отправляет строку в stdin.\"\"\"
+        """Отправляет строку в stdin."""
         pass
 
     @abstractmethod
     def read_available(self) -> str:
-        \"\"\"НЕблокирующее чтение stdout.\"\"\"
+        """НЕблокирующее чтение stdout."""
         pass
 
     @abstractmethod
     def is_alive(self) -> bool:
-        \"\"\"Жив ли процесс.\"\"\"
+        """Жив ли процесс."""
         pass
 
     @abstractmethod
     def terminate(self) -> None:
-        \"\"\"Гарантированное завершение.\"\"\"
+        """Гарантированное завершение."""
         pass
 """,
 
@@ -140,7 +140,7 @@ class LinuxOperatorCLI:
         self.transport.start([binary_path])
 
     def wait_for_output(self, text: str, timeout: float = 10.0) -> bool:
-        \"\"\"Реализация WebDriverWait для консоли: non-blocking опрос буфера\"\"\"
+        """Реализация WebDriverWait для консоли: non-blocking опрос буфера"""
         end_time = time.time() + timeout
         while time.time() < end_time:
             new_data = self.transport.read_available()
@@ -189,7 +189,7 @@ from src.interaction.cli.linux_operator_cli import LinuxOperatorCLI
 
 @pytest.fixture(scope="function")
 def android_client():
-    \"\"\"Инициализация Appium сессии клиента по канонам 3.x версии\"\"\"
+    """Инициализация Appium сессии клиента по канонам 3.x версии"""
     options = UiAutomator2Options()
     options.platform_name = "Android"
     options.automation_name = "UiAutomator2"
@@ -204,7 +204,7 @@ def android_client():
 
 @pytest.fixture(scope="function")
 def linux_operator():
-    \"\"\"Фикстура управления Linux CLI Оператором с гарантированным teardown\"\"\"
+    """Фикстура управления Linux CLI Оператором с гарантированным teardown"""
     transport = LocalTransport()
     operator = LinuxOperatorCLI(transport)
     operator.start_operator(binary_path="./operator_cli")
@@ -221,10 +221,10 @@ GENERATED_CODE_LABEL = (By.ID, "com.support.remote.client:id/code_field")
 SESSION_STATUS_LABEL = (By.ID, "com.support.remote.client:id/status_field")
 
 def test_remote_support_connection_e2e(android_client, linux_operator):
-    \"\"\"
+    """
     Сквозной тест синхронизации двух независимых акторов.
     Клиент на Android генерирует код -> Оператор в Linux CLI подключается по нему.
-    \"\"\"
+    """
     from src.interaction.pages.base_page import BasePage
     client_page = BasePage(android_client)
     
