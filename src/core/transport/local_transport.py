@@ -3,6 +3,7 @@ from queue import Empty, Queue
 from threading import Thread
 from src.core.transport.base_transport import ITransport
 
+
 class LocalTransport(ITransport):
     def __init__(self) -> None:
         self._process = None

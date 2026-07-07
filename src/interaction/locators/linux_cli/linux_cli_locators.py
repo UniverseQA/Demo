@@ -1,5 +1,5 @@
-class OperatorCliPatterns:
-    """Текстовые маркеры и подсказки из stdout Linux CLI оператора."""
+class LinuxCliPatterns:
+    """Текстовые маркеры и подсказки из stdout Linux CLI приложения"""
 
     # Строка-приглашение к вводу кода подключения
     PROMPT_ENTER_CODE = "Enter connection code:"

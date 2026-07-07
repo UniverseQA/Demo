@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class ITransport(ABC):
     @abstractmethod
     def start(self, command: list[str]) -> None:

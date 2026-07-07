@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.webdriver import WebDriver
 
+
 class BasePage:
     def __init__(self, driver: WebDriver) -> None:
         self.driver = driver
@@ -15,3 +16,99 @@ class BasePage:
 
     def get_text(self, locator: tuple[str, str]) -> str:
         return self.find_element(locator).text
+
+    def assert_screen_matches_template(self, template_name: str, threshold: float = 3.0, ignored_locators: list = None) -> None:
+        """Сверяет экран с шаблоном с учетом плотности пикселей и умными повторами оверлеев"""
+        import os
+        import time
+        import pytest
+        from pathlib import Path
+        from PIL import Image, ImageChops, ImageStat, ImageDraw
+
+        # Сохраняем имя текущего шаблона в pytest, чтобы передать его в финальный HTML-отчет
+        pytest.last_template_name = template_name
+
+        project_root = Path(__file__).parent.parent.parent.parent
+        templates_dir = project_root / "screenshots" / "templates"
+        actual_dir = project_root / "screenshots" / "actual"
+
+        templates_dir.mkdir(parents=True, exist_ok=True)
+        actual_dir.mkdir(parents=True, exist_ok=True)
+
+        template_path = templates_dir / f"{template_name}.png"
+        actual_path = actual_dir / f"{template_name}.png"
+        diff_path = actual_dir / f"{template_name}_diff.png"
+
+        # Если базового шаблона вообще нет, делаем быстрый снимок и выходим
+        if not template_path.exists():
+            self.driver.get_screenshot_as_file(str(actual_path))
+            img_initial = Image.open(actual_path).convert("RGB")
+            draw_initial = ImageDraw.Draw(img_initial)
+            draw_initial.rectangle([0, 0, img_initial.width, 150], fill="#18181c")
+            img_initial.save(actual_path)
+            img_initial.save(template_path)
+            img_initial.save(diff_path)
+            print(f"\n[VISUAL] Создан новый базовый эталон: {template_path}")
+            return
+
+        img_template = Image.open(template_path).convert("RGB")
+
+        # Цикл умных повторов (3 попытки с паузой), чтобы переждать всплывающие окна и дампы памяти
+        max_attempts = 3
+        for attempt in range(max_attempts):
+            self.driver.get_screenshot_as_file(str(actual_path))
+            img_actual = Image.open(actual_path).convert("RGB")
+            draw_actual = ImageDraw.Draw(img_actual)
+
+            # Маскируем верхнюю панель часов и таймера Android 16
+            draw_actual.rectangle([0, 0, img_actual.width, 150], fill="#18181c")
+
+            if ignored_locators:
+                # Вычисляем точный коэффициент масштабирования логических dp в физические пиксели
+                window_size = self.driver.get_window_size()
+                scale_x = img_actual.width / window_size['width']
+                scale_y = img_actual.height / window_size['height']
+
+                for locator in ignored_locators:
+                    try:
+                        element = self.driver.find_element(*locator)
+                        rect = element.rect
+                        # Пересчитываем геометрию элемента под реальное разрешение картинки
+                        x = int(rect['x'] * scale_x)
+                        y = int(rect['y'] * scale_y)
+                        w = int(rect['width'] * scale_x)
+                        h = int(rect['height'] * scale_y)
+
+                        draw_actual.rectangle([x, y, x + w, y + h], fill="#18181c")
+                    except Exception:
+                        pass
+            img_actual.save(actual_path)
+
+            if img_template.size != img_actual.size:
+                raise AssertionError(
+                    f"Размеры экранов не совпадают! Эталон: {img_template.size}, Текущий: {img_actual.size}")
+
+            # Считаем разницу пикселей
+            diff = ImageChops.difference(img_template, img_actual)
+            gray_diff = diff.convert("L")
+            hist = gray_diff.histogram()
+            changed_pixels = sum(hist[15:])
+
+            # Генерируем карту различий для отчета
+            mask = gray_diff.point(lambda x: 255 if x > 15 else 0)
+            neon_fill = Image.new("RGB", img_actual.size, color=(255, 0, 85))
+            highlighted_diff = Image.composite(neon_fill, img_actual, mask)
+            highlighted_diff.save(diff_path)
+
+            # Если уложились в лимит изменений — тест успешно пройден
+            if changed_pixels <= 150:
+                return
+
+            # Если это не последняя попытка — даем оверлеям время исчезнуть
+            if attempt < max_attempts - 1:
+                print(f"\n[VISUAL] Обнаружено расхождение ({changed_pixels} px). Повторная попытка {attempt + 1}...")
+                time.sleep(4.0)
+
+        # Если после всех попыток экран все еще не совпадает — роняем тест
+        raise AssertionError(
+            f"Визуальный вид экрана не соответствует эталону {template_name}! Изменилось пикселей: {changed_pixels} (порог: 150)")

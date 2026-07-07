@@ -1,0 +1,15 @@
+# Скрывать сырые данные в любой подпапке проекта
+**/allure-results/
+allure-report/
+last_run.mp4
+preview.html
+screenshots/actual/
+
+# Кэш Python и PyTest
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Venv или настройки PyCharm
+.idea/
+venv/
