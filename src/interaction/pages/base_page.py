@@ -72,16 +72,20 @@ class BasePage:
                 for locator in ignored_locators:
                     try:
                         element = self.driver.find_element(*locator)
-                        rect = element.rect
+                        location = element.location
+                        size = element.size
+                        
                         # Пересчитываем геометрию элемента под реальное разрешение картинки
-                        x = int(rect['x'] * scale_x)
-                        y = int(rect['y'] * scale_y)
-                        w = int(rect['width'] * scale_x)
-                        h = int(rect['height'] * scale_y)
+                        x = int(location['x'] * scale_x)
+                        y = int(location['y'] * scale_y)
+                        w = int(size['width'] * scale_x)
+                        h = int(size['height'] * scale_y)
 
                         draw_actual.rectangle([x, y, x + w, y + h], fill="#18181c")
                     except Exception:
                         pass
+            
+            # Сохраняем маскированный скриншот ПЕРЕД сравнением
             img_actual.save(actual_path)
 
             if img_template.size != img_actual.size:

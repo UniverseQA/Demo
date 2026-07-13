@@ -69,8 +69,10 @@ def pytest_runtest_makereport(item, call):
         diff_path = actual_dir / f"{template_name}_diff.png"
 
         # Защита от перезаписи, если base_page уже сделал снимок секунду назад
-        if not is_functional_crash and actual_path.exists() and (time.time() - actual_path.stat().st_mtime) < 5:
-            return
+        if not is_functional_crash and actual_path.exists():
+            time_since_modification = time.time() - actual_path.stat().st_mtime
+            if time_since_modification < 5:
+                return
 
         try:
             # Делаем снимок экрана аварии
@@ -109,8 +111,10 @@ def android_client(request):
     options.automation_name = "UiAutomator2"
     options.full_reset = True
     options.no_reset = False
-    options.set_capability("appium:disableSuppressAccessibilityServices", True)
-    options.set_capability("appium:amendAccessibilityServices", True)
+    
+    # Предотвращаем заморозку сторонних служб спецвозможностей (Android 16+)
+    options.set_capability("disableSuppressAccessibilityService", True)
+    options.set_capability("skipServerInstallation", False)
 
     if config.app_path:
         options.app = config.app_path
