@@ -1,6 +1,5 @@
-import time
-from src.interaction.pages.base_page import BasePage
-from src.interaction.locators.android.onboarding_locators import (
+from src.pages.base_page import BasePage
+from src.locators.android.onboarding_locators import (
     CommonOnboardingLocators,
     ScreenShareSystemLocators,
     NotificationSystemLocators,
@@ -54,7 +53,7 @@ class OnboardingPage(BasePage):
     # --- ВЫСОКОУРОВНЕВЫЕ СЦЕНАРИИ (СТРАТЕГИИ) ---
 
     def pass_onboarding(self) -> None:
-        """Полное сквозное прохождение онбординга с нативной инъекцией прав через subprocess ADB"""
+        """Полное прохождение онбординга с выдачей всех разрешений"""
 
         # 1. Экран приветствия
         self.click_tour_button()
@@ -84,6 +83,7 @@ class OnboardingPage(BasePage):
 
         # 6. Клик на "Начать работу"
         self.click_tour_button()
+
     def pass_post_auth_auto_connect(self) -> None:
         """Выдача разрешения на автоподключение после авторизации"""
         # Клик по кнопке "Разрешить" на экране автоподключения

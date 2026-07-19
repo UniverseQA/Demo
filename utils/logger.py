@@ -5,23 +5,8 @@ from pathlib import Path
 
 def get_logger(name: str) -> logging.Logger:
     """
-    Создает
-    и
-    настраивает
-    структурированный
-    логгер
-    для
-    фреймворка.
-    Пишет
-    логи
-    одновременно
-    в
-    stdout
-    и
-    в
-    файл
-    фреймворка
-    automation.log.
+        Создает и настраивает структурированный логгер для фреймворка.
+        Пишет логи одновременно в stdout и в файл фреймворка automation.log.
     """
     logger = logging.getLogger(name)
 

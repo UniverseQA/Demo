@@ -1,5 +1,5 @@
-from src.interaction.pages.base_page import BasePage
-from src.interaction.locators.android.main_page_locators import MainPageLocators
+from src.pages.base_page import BasePage
+from src.locators.android.main_page_locators import MainPageLocators
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import pytest

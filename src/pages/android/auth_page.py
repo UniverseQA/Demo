@@ -1,7 +1,7 @@
 import time
 from selenium.webdriver.support import expected_conditions as EC
-from src.interaction.pages.base_page import BasePage
-from src.interaction.locators.android.auth_locators import AuthPageLocators
+from src.pages.base_page import BasePage
+from src.locators.android.auth_locators import AuthPageLocators
 
 
 class AuthPage(BasePage):

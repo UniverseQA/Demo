@@ -1,5 +1,5 @@
-from src.interaction.pages.base_page import BasePage
-from src.interaction.locators.android.app_settings_locators import AppSettingsLocators
+from src.pages.base_page import BasePage
+from src.locators.android.app_settings_locators import AppSettingsLocators
 
 class AppSettingsPage(BasePage):
     """Экран настроек приложения"""

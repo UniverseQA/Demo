@@ -17,8 +17,7 @@ class StartPageLocators:
 
     # Ссылки внутри открывшегося браузера (для верификации перехода)
     BROWSER_RULES_ELEMENT = (By.XPATH, "//*[contains(@text, 'правила сервиса') or contains(@text, 'Terms')]")
-    BROWSER_PRIVACY_ELEMENT = (
-    By.XPATH, "//*[contains(@text, 'политика конфиденциальности') or contains(@text, 'Privacy')]")
+    BROWSER_PRIVACY_ELEMENT = (By.XPATH, "//*[contains(@text, 'политика конфиденциальности') or contains(@text, 'Privacy')]")
 
 
 # ==============================================================================#
@@ -55,7 +54,7 @@ class OverlaySystemLocators:
 
 
 class FileSystemSystemLocators:
-    """5. Системный экран настроек 'Доступ ко всем файлам'."""
+    """5. Системный экран настроек 'Доступ ко всем файлам'"""
     FILE_SWITCH_CONTAINER = (By.XPATH, "//android.view.View[@checkable='true']")
 
 

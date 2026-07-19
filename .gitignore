@@ -13,3 +13,4 @@ __pycache__/
 # Venv или настройки PyCharm
 .idea/
 venv/
+.aider*

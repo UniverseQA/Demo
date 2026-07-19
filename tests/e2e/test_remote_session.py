@@ -1,8 +1,8 @@
 import pytest
-from src.interaction.pages.android.onboarding_page import OnboardingPage
-from src.interaction.pages.android.main_page import MainPage
-from src.interaction.pages.android.app_settings_page import AppSettingsPage
-from src.interaction.pages.android.auth_page import AuthPage
+from src.pages.android import OnboardingPage
+from src.pages.android.main_page import MainPage
+from src.pages.android import AppSettingsPage
+from src.pages.android import AuthPage
 
 
 def test_saby_admin_fresh_install_onboarding(android_client):

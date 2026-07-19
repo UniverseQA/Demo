@@ -5,11 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="356707ba-02de-49d3-9daa-932640845b31" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/config/local_settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interaction/locators/onboarding_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/interaction/locators/onboarding_locators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/interaction/pages/client/onboarding_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/interaction/pages/client/onboarding_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/transport/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/transport/base_transport.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/transport/local_transport.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/linux_cli/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/android/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/linux_cli/linux_cli.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/android/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/android/app_settings_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/android/app_settings_locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/android/auth_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/android/auth_locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/android/main_page_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/android/main_page_locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/android/onboarding_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/locators/android/onboarding_locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/linux_cli/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/linux_cli/linux_cli_locators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/android/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/android/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/android/app_settings_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/android/app_settings_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/android/auth_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/android/auth_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/android/main_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/android/main_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/android/onboarding_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/android/onboarding_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/base_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/base_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/linux_cli/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/steps/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixtures/conftest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/data/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/e2e/test_remote_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/e2e/test_remote_session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/временный.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +42,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="5" />
+    <option name="cachedIndexableFilesCount" value="30" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -38,61 +64,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0" />
-      <entry key="S30" value="1.0" />
-      <entry key="S60" value="1.0" />
-      <entry key="M2" value="1.0" />
-      <entry key="M5" value="1.0" />
-      <entry key="M10" value="1.0" />
-      <entry key="M15" value="1.0" />
-      <entry key="M30" value="1.0" />
-      <entry key="H1" value="1.0" />
-      <entry key="H2" value="1.0" />
-      <entry key="H4" value="1.0" />
-      <entry key="D1" value="1.0" />
-      <entry key="W1" value="1.0" />
+      <entry key="MS100" value="1.0016310138286515" />
+      <entry key="MS500" value="1.4085611097342476" />
+      <entry key="S2" value="3.258748510334991" />
+      <entry key="S5" value="5.097880901201549" />
+      <entry key="S10" value="6.5969948107670655" />
+      <entry key="S30" value="8.490274673125437" />
+      <entry key="S60" value="9.195892531734419" />
+      <entry key="M2" value="9.819560829529316" />
+      <entry key="M5" value="11.137425924320489" />
+      <entry key="M10" value="12.203018009679464" />
+      <entry key="M15" value="12.699905310905216" />
+      <entry key="M30" value="13.292402516644728" />
+      <entry key="H1" value="13.63657313753902" />
+      <entry key="H2" value="14.722953963424395" />
+      <entry key="H4" value="25.03817848651924" />
+      <entry key="D1" value="103.59800694585718" />
+      <entry key="W1" value="142.1298814998243" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="0.0" />
-      <entry key="M2" value="0.0" />
-      <entry key="M5" value="0.0" />
-      <entry key="M10" value="0.0" />
-      <entry key="M15" value="0.0" />
-      <entry key="M30" value="0.0" />
-      <entry key="H1" value="0.0" />
-      <entry key="H2" value="0.0" />
-      <entry key="H4" value="0.0" />
-      <entry key="D1" value="0.0" />
-      <entry key="W1" value="0.0" />
+      <entry key="MS500" value="1.9887124532182338E-197" />
+      <entry key="S2" value="6.677947467384648E-50" />
+      <entry key="S5" value="2.137259327305837E-20" />
+      <entry key="S10" value="1.4623799993987864E-10" />
+      <entry key="S30" value="5.82390927497391E-4" />
+      <entry key="S60" value="0.0334826802728906" />
+      <entry key="M2" value="0.2965760891547876" />
+      <entry key="M5" value="1.1702724636264255" />
+      <entry key="M10" value="1.8689875992226601" />
+      <entry key="M15" value="2.187115325538072" />
+      <entry key="M30" value="2.56081252347784" />
+      <entry key="H1" value="2.7715331260129212" />
+      <entry key="H2" value="2.8834560186378138" />
+      <entry key="H4" value="2.941138414601411" />
+      <entry key="D1" value="2.990106812138715" />
+      <entry key="W1" value="2.998584643023157" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="3.643751971996039E-8" />
-      <entry key="MS500" value="0.03253192492762848" />
-      <entry key="S2" value="0.42469528589060596" />
-      <entry key="S5" value="0.7099552517531802" />
-      <entry key="S10" value="0.8425884236999581" />
-      <entry key="S30" value="0.944506960299699" />
-      <entry key="S60" value="0.9718574794174808" />
-      <entry key="M2" value="0.9858283214725984" />
-      <entry key="M5" value="0.994307044360953" />
-      <entry key="M10" value="0.9971494593895907" />
-      <entry key="M15" value="0.9980987356049185" />
-      <entry key="M30" value="0.9990489155216168" />
-      <entry key="H1" value="0.9995243446367961" />
-      <entry key="H2" value="0.999762144030667" />
-      <entry key="H4" value="0.9998810649425596" />
-      <entry key="D1" value="0.9999801765080255" />
-      <entry key="W1" value="0.9999971680485154" />
+      <entry key="MS100" value="0.6212636561979058" />
+      <entry key="MS500" value="1.3048809426764265" />
+      <entry key="S2" value="3.216439569276878" />
+      <entry key="S5" value="5.073194835786923" />
+      <entry key="S10" value="6.5801300839806505" />
+      <entry key="S30" value="8.482779060996405" />
+      <entry key="S60" value="9.223932955668722" />
+      <entry key="M2" value="10.109314906578355" />
+      <entry key="M5" value="12.299372037796727" />
+      <entry key="M10" value="14.065552513848983" />
+      <entry key="M15" value="14.88201730107573" />
+      <entry key="M30" value="15.850299548747714" />
+      <entry key="H1" value="16.40653140425335" />
+      <entry key="H2" value="17.605588789938995" />
+      <entry key="H4" value="27.978883316113084" />
+      <entry key="D1" value="106.58802101661318" />
+      <entry key="W1" value="145.12845150407188" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -118,15 +144,22 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/vm.hudasov/PycharmProjects/pythonProject",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Joker/PycharmProjects/Demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "configurable.group.appearance"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Joker\PycharmProjects\Demo\tests\fixtures" />
+      <recent name="C:\Users\Joker\PycharmProjects\Demo\src" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -145,6 +178,13 @@
     </task>
     <servers />
   </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <envs>
+      <env key="HTTP_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
+      <env key="HTTPS_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
+      <env key="ALL_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
+    </envs>
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
@@ -158,16 +198,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

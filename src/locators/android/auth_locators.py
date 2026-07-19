@@ -5,8 +5,7 @@ class AuthPageLocators:
     """Локаторы экрана авторизации"""
 
     # Поле ввода логина (привязываемся к уникальному родительскому ViewGroup)
-    LOGIN_FIELD = (By.XPATH,
-                   "//android.view.ViewGroup[@resource-id='ru.tensor.sbis.sabyadmin.debug:id/auth_login']//android.widget.EditText")
+    LOGIN_FIELD = (By.XPATH, "//android.view.ViewGroup[@resource-id='ru.tensor.sbis.sabyadmin.debug:id/auth_login']//android.widget.EditText")
 
     # Первая промежуточная кнопка-стрелка после ввода логина
     FIRST_NEXT_BUTTON = (By.ID, "ru.tensor.sbis.sabyadmin.debug:id/auth_first_btn")
