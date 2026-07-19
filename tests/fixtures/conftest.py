@@ -13,7 +13,6 @@ from allure_commons.types import AttachmentType
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from config.settings import config
-from src.core.transport.local_transport import LocalTransport
 
 
 def pytest_addoption(parser):
@@ -40,8 +39,6 @@ def pytest_runtest_makereport(item, call):
     # Проверяем, что тест упал именно во время выполнения (phase == 'call')
     if report.when == "call" and report.failed:
         import time
-        import pytest
-        from pathlib import Path
         from PIL import Image, ImageChops, ImageDraw
 
         # Пытаемся динамически достать драйвер из фикстур упавшего теста
@@ -157,13 +154,10 @@ def android_client(request):
     except Exception as e:
         print(f"Ошибка при обработке или вложении видеозаписи: {e}")
 
-    driver.quit()
-
-
-@pytest.fixture(scope="function")
-def linux_cli():
-    """Запуск и гарантированная очистка процессов Linux CLI."""
-    transport = LocalTransport()
+    try:
+        driver.quit()
+    except Exception as e:
+        print(f"Не удалось корректно завершить сессию драйвера: {e}")
 
 
 def pytest_sessionfinish(session, exitstatus):
@@ -174,9 +168,8 @@ def pytest_sessionfinish(session, exitstatus):
     """
 
     import os
-    import pytest
     import datetime
-    from pathlib import Path
+    import subprocess
 
     raw_dir = getattr(session.config.option, 'allure_report_dir', None)
     if not raw_dir:
@@ -189,7 +182,10 @@ def pytest_sessionfinish(session, exitstatus):
     user_home = str(Path.home())
     npm_allure_path = os.path.join(user_home, ".npm-global", "bin", "allure")
     allure_cmd = npm_allure_path if os.path.exists(npm_allure_path) else "allure"
-    os.system(f"{allure_cmd} generate {results_dir} -o {report_dir} --clean --single-file")
+    subprocess.run(
+        [allure_cmd, "generate", results_dir, "-o", report_dir, "--clean", "--single-file"],
+        check=False
+    )
 
     template_name = getattr(pytest, 'last_template_name', None)
     dashboard_tip = "💡 По центру: ползунок сравнения Шаблона и Актуального экрана<br><br>💡 Справа: неоновый дифф (все изменения подсвечены ярко-розовым цветом)"

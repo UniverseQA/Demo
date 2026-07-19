@@ -1,3 +1,9 @@
+from pathlib import Path
+
+from PIL import Image, ImageChops, ImageDraw
+import time
+import pytest
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.webdriver import WebDriver
@@ -9,7 +15,7 @@ class BasePage:
         self.wait = WebDriverWait(self.driver, 15)
 
     def find_element(self, locator: tuple[str, str]):
-        return self.wait.until(EC.presence_of_element_with_locator(locator))
+        return self.wait.until(EC.presence_of_element_located(locator))
 
     def click(self, locator: tuple[str, str]) -> None:
         self.wait.until(EC.element_to_be_clickable(locator)).click()
@@ -17,14 +23,13 @@ class BasePage:
     def get_text(self, locator: tuple[str, str]) -> str:
         return self.find_element(locator).text
 
-    def assert_screen_matches_template(self, template_name: str, threshold: float = 3.0, ignored_locators: list = None) -> None:
-        """Сверяет экран с шаблоном с учетом плотности пикселей и умными повторами оверлеев"""
-        import os
-        import time
-        import pytest
-        from pathlib import Path
-        from PIL import Image, ImageChops, ImageStat, ImageDraw
+    @staticmethod
+    def _mask_top_panel(draw, width: int, height: int = 150) -> None:
+        """Маскирует верхнюю панель часов и таймера Android 16"""
+        draw.rectangle([0, 0, width, height], fill="#18181c")
 
+    def assert_screen_matches_template(self, template_name: str, ignored_locators: list | None = None) -> None:
+        """Сверяет экран с шаблоном с учетом плотности пикселей и умными повторами оверлеев"""
         # Сохраняем имя текущего шаблона в pytest, чтобы передать его в финальный HTML-отчет
         pytest.last_template_name = template_name
 
@@ -44,7 +49,7 @@ class BasePage:
             self.driver.get_screenshot_as_file(str(actual_path))
             img_initial = Image.open(actual_path).convert("RGB")
             draw_initial = ImageDraw.Draw(img_initial)
-            draw_initial.rectangle([0, 0, img_initial.width, 150], fill="#18181c")
+            self._mask_top_panel(draw_initial, img_initial.width)
             img_initial.save(actual_path)
             img_initial.save(template_path)
             img_initial.save(diff_path)
@@ -61,7 +66,7 @@ class BasePage:
             draw_actual = ImageDraw.Draw(img_actual)
 
             # Маскируем верхнюю панель часов и таймера Android 16
-            draw_actual.rectangle([0, 0, img_actual.width, 150], fill="#18181c")
+            self._mask_top_panel(draw_actual, img_actual.width)
 
             if ignored_locators:
                 # Вычисляем точный коэффициент масштабирования логических dp в физические пиксели
