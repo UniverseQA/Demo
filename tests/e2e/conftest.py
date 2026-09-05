@@ -1,11 +1,5 @@
 import sys
 from pathlib import Path
-
-# Находим корень проекта для импортов config и src
-PROJECT_ROOT = str(Path(__file__).parent.parent)
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
-
 import base64
 import pytest
 import allure
@@ -13,6 +7,12 @@ from allure_commons.types import AttachmentType
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from config.settings import config
+from utils.video_recorder import ActionVideoRecorder
+
+# Находим корень проекта для импортов config и src
+PROJECT_ROOT = str(Path(__file__).parent.parent)
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 
 def pytest_addoption(parser):
@@ -108,7 +108,8 @@ def android_client(request):
     options.automation_name = "UiAutomator2"
     options.full_reset = True
     options.no_reset = False
-    
+    options.new_command_timeout = 3600
+
     # Предотвращаем заморозку сторонних служб спецвозможностей (Android 16+)
     options.set_capability("disableSuppressAccessibilityService", True)
     options.set_capability("skipServerInstallation", False)
@@ -135,22 +136,21 @@ def android_client(request):
 
     yield driver
 
-    # --- ТЕЙРДАУН СЕССИИ (Запускается после теста) ---
+# --- ТЕЙРДАУН СЕССИИ ---
     try:
         raw_video = driver.stop_recording_screen()
-        video_bytes = base64.b64decode(raw_video)
-
-        # 1. Сохраняем физический файл на диск в корень проекта (last_run.mp4)
         static_video_path = Path(PROJECT_ROOT) / "last_run.mp4"
-        static_video_path.write_bytes(video_bytes)
 
-        # 2. ИСПРАВЛЕНИЕ ДЛЯ МОНОЛИТНОГО ОТЧЕТА:
-        # Прикрепляем к Allure именно созданный файл по его пути — это гарантирует появление плеера
-        allure.attach.file(
-            source=str(static_video_path),
-            name="video_execution_run",
-            attachment_type=AttachmentType.MP4
-        )
+        # Сохраняем сырое видео с Appium только если кастомный recorder не создал обработанное
+        if not static_video_path.exists() or static_video_path.stat().st_size == 0:
+            video_bytes = base64.b64decode(raw_video)
+            static_video_path.write_bytes(video_bytes)
+
+            allure.attach.file(
+                source=str(static_video_path),
+                name="video_execution_run",
+                attachment_type=AttachmentType.MP4
+            )
     except Exception as e:
         print(f"Ошибка при обработке или вложении видеозаписи: {e}")
 
@@ -159,6 +159,16 @@ def android_client(request):
     except Exception as e:
         print(f"Не удалось корректно завершить сессию драйвера: {e}")
 
+@pytest.fixture
+def video_recorder(request):
+    """Фикстура записи видео в формате WebM"""
+    video_path = Path(PROJECT_ROOT) / "last_run.webm"
+    recorder = ActionVideoRecorder(output_path=str(video_path))
+    yield recorder
+
+    # Запекаем видео и прикрепляем к отчёту
+    recorder.save_and_attach_to_allure(attachment_name=f"Annotated Video: {request.node.name}")
+
 
 def pytest_sessionfinish(session, exitstatus):
     """
@@ -166,8 +176,8 @@ def pytest_sessionfinish(session, exitstatus):
         - генерирует стандартный Allure. И верстает мгновенный экспресс-дашборд с видео;
         - собирает продвинутый визуальный дашборд с неоновым подсвечиванием диффов
     """
-
     import os
+    import time
     import datetime
     import subprocess
 
@@ -178,7 +188,7 @@ def pytest_sessionfinish(session, exitstatus):
     results_dir = os.path.abspath(raw_dir)
     report_dir = os.path.join(PROJECT_ROOT, "allure-report")
 
-    # Собираем Allure в фоне
+    # Генерация Allure в фоне
     user_home = str(Path.home())
     npm_allure_path = os.path.join(user_home, ".npm-global", "bin", "allure")
     allure_cmd = npm_allure_path if os.path.exists(npm_allure_path) else "allure"
@@ -188,20 +198,51 @@ def pytest_sessionfinish(session, exitstatus):
     )
 
     template_name = getattr(pytest, 'last_template_name', None)
-    dashboard_tip = "💡 По центру: ползунок сравнения Шаблона и Актуального экрана<br><br>💡 Справа: неоновый дифф (все изменения подсвечены ярко-розовым цветом)"
-
-    if not template_name:
-        template_name = "functional_failure"
-        dashboard_tip = "💥 ТЕСТ УПАЛ ДО ПРОВЕРКИ ВЕРСТКИ!<br><br>На панелях ниже отображен чистый скриншот экрана эмулятора в момент системной или функциональной аварии кода"
+    now_timestamp = int(time.time())
+    now_time = datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S')
 
     if exitstatus == 0:
         status_text, status_color = "PASSED ✅", "#2ec4b6"
     else:
         status_text, status_color = "FAILED ❌", "#e71d36"
 
-    now_time = datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S')
+    # Обработка ситуаций, когда нет проверок верстки / нет падений
+    if exitstatus == 0 and not template_name:
+        dashboard_tip = "✨ ТЕСТ УСПЕШНО ПРОЙДЕН!<br><br>Функциональных или визуальных отклонений не обнаружено."
+        slider_panel_html = """
+        <div class="panel" style="grid-column: span 2; align-items: center; justify-content: center; text-align: center;">
+            <h2 style="align-self: center; color: #2ec4b6; font-size: 22px;">Все визуальные и функциональные проверки пройдены!</h2>
+            <p style="color: #a0a0ab; font-size: 15px; margin-top: 10px;">Эталонный экран полностью совпадает с актуальным. Неоновых диффов нет.</p>
+        </div>
+        """
+    else:
+        if not template_name:
+            template_name = "functional_failure"
+            dashboard_tip = "💥 ТЕСТ УПАЛ ДО ПРОВЕРКИ ВЕРСТКИ!<br><br>На панелях ниже отображен чистый скриншот экрана эмулятора в момент аварии."
+        else:
+            dashboard_tip = "💡 По центру: ползунок сравнения Шаблона и Актуального экрана<br><br>💡 Справа: неоновый дифф с изменениями."
+        # Верстаем трехпанельный HTML-дашборд с адаптивным JS-слайдером по центру
+        slider_panel_html = f"""
+        <div class="panel">
+            <h2>Интерактивный слайдер (Template vs Actual)</h2>
+            <div class="image-container">
+                <div class="badge actual-badge">Текущий (Actual)</div>
+                <div class="badge template-badge">Эталон (Template)</div>
+                <img class="img image-before" src="screenshots/templates/{template_name}.png?v={now_timestamp}" />
+                <img class="img image-after" src="screenshots/actual/{template_name}.png?v={now_timestamp}" />
+                <input type="range" min="0" max="100" value="50" class="slider-input" oninput="moveSlider(this.value)" />
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Карта различий (Neon Highlights)</h2>
+            <div class="media-box" style="height: 100%; background: transparent;">
+                <img class="diff-img" src="screenshots/actual/{template_name}_diff.png?v={now_timestamp}" />
+            </div>
+        </div>
+        """
 
-    # Верстаем трехпанельный HTML-дашборд с адаптивным JS-слайдером по центру
+    # HTML-шаблон дашборда
     html_dashboard = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -210,19 +251,19 @@ def pytest_sessionfinish(session, exitstatus):
     <style>
         body {{ font-family: 'Segoe UI', sans-serif; background-color: #141416; color: #ececed; margin: 0; padding: 20px; }}
         .header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #1c1c21; padding: 15px 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }}
-        .layout {{ display: grid; grid-template-columns: 320px 1fr 1fr; gap: 20px; height: 80vh; }}
+        .layout {{ display: grid; grid-template-columns: 340px 1fr 1fr; gap: 20px; height: 80vh; }}
         .panel {{ background-color: #1c1c21; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; }}
         .info-panel {{ align-items: flex-start; justify-content: space-between; }}
-        .media-box {{ width: 100%; height: 45%; display: flex; align-items: center; justify-content: center; background: #0b0b0d; border-radius: 8px; overflow: hidden; }}
+        .media-box {{ width: 100%; height: 50%; display: flex; align-items: center; justify-content: center; background: #0b0b0d; border-radius: 8px; overflow: hidden; margin-top: 15px; }}
         
         h1, h2 {{ margin: 0; color: #ffffff; }}
         h2 {{ font-size: 16px; margin-bottom: 10px; align-self: flex-start; color: #a0a0ab; }}
         .status-badge {{ background-color: {status_color}; color: #ffffff; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 16px; }}
         .meta {{ color: #a0a0ab; font-size: 14px; margin: 5px 0; }}
-        .allure-btn {{ display: inline-block; background: #7928ca; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; margin-top: auto; width: 85%; text-align: center; font-weight: bold; }}
+        .allure-btn {{ display: inline-block; background: #7928ca; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; margin-top: auto; width: 88%; text-align: center; font-weight: bold; }}
         .allure-btn:hover {{ background: #943ff3; }}
         
-        /* Стили для интерактивного ползунка сравнения скриншотов */
+        /* Слайдер */
         .image-container {{ position: relative; width: 100%; height: 100%; max-height: 70vh; aspect-ratio: 1080/2400; background: #000; border-radius: 6px; overflow: hidden; }}
         .img {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }}
         .image-after {{ clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); z-index: 2; }}
@@ -252,38 +293,23 @@ def pytest_sessionfinish(session, exitstatus):
         <div class="panel info-panel">
             <div style="width: 100%;">
                 <h2>Сценарий автоматизации</h2>
-                <div class="meta" style="color: #fff; font-weight: bold;">test_remote_session.py</div>
+                <div class="meta" style="color: #fff; font-weight: bold;">{session.config.args[0] if session.config.args else 'test_operator_connection.py'}</div>
                 <div class="meta" style="margin-top: 15px; font-size: 12px; color: #82929f;">
                     {dashboard_tip}
                 </div>
             </div>
             
-            <div class="media-box" style="margin-top: 20px; height: 40%;">
+            <div class="media-box">
                 <video controls autoplay muted loop>
-                    <source src="last_run.mp4" type="video/mp4">
+                    <source src="last_run.webm?v={now_timestamp}" type="video/webm">
+                    <source src="last_run.mp4?v={now_timestamp}" type="video/mp4">
                 </video>
             </div>
             
             <a href="allure-report/index.html" target="_blank" class="allure-btn">Открыть Allure Report</a>
         </div>
         
-        <div class="panel">
-            <h2>Интерактивный слайдер (Template vs Actual)</h2>
-            <div class="image-container">
-                <div class="badge actual-badge">Текущий (Actual)</div>
-                <div class="badge template-badge">Эталон (Template)</div>
-                <img class="img image-before" src="screenshots/templates/{template_name}.png" />
-                <img class="img image-after" src="screenshots/actual/{template_name}.png" />
-                <input type="range" min="0" max="100" value="50" class="slider-input" oninput="moveSlider(this.value)" />
-            </div>
-        </div>
-        
-        <div class="panel">
-            <h2>Карта различий (Neon Highlights)</h2>
-            <div class="media-box" style="height: 100%; background: transparent;">
-                <img class="diff-img" src="screenshots/actual/{template_name}_diff.png" />
-            </div>
-        </div>
+        {slider_panel_html}
     </div>
 
     <script>
@@ -296,4 +322,4 @@ def pytest_sessionfinish(session, exitstatus):
 
     preview_path = Path(PROJECT_ROOT) / "preview.html"
     preview_path.write_text(html_dashboard, encoding="utf-8")
-    print(f"\n[DASHBOARD] Продвинутый визуальный отчет готов: {preview_path}")
+    print(f"\n[DASHBOARD] Продвинутый визуальный отчет обновлен: {preview_path}")

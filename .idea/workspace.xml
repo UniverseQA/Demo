@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="356707ba-02de-49d3-9daa-932640845b31" name="Changes" comment="Почистил мусор">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/base_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/base_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/fixtures/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixtures/conftest.py" afterDir="false" />
+    <list default="true" id="356707ba-02de-49d3-9daa-932640845b31" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/config/local_settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/locators/onboarding_locators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/interaction/locators/onboarding_locators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction/pages/client/onboarding_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/interaction/pages/client/onboarding_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/e2e/test_remote_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/e2e/test_remote_session.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="30" />
-    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+    <option name="cachedIndexableFilesCount" value="5" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -41,57 +42,57 @@
       <entry key="MS500" value="1.0" />
       <entry key="S2" value="1.0" />
       <entry key="S5" value="1.0" />
-      <entry key="S10" value="1.0000000000001015" />
-      <entry key="S30" value="1.0000466477385237" />
-      <entry key="S60" value="1.0068299169101582" />
-      <entry key="M2" value="1.082816415035646" />
-      <entry key="M5" value="1.540571666800086" />
-      <entry key="M10" value="3.38169423961616" />
-      <entry key="M15" value="5.609884377586211" />
-      <entry key="M30" value="10.425273090073327" />
-      <entry key="H1" value="14.682667491182665" />
-      <entry key="H2" value="18.28055678244219" />
-      <entry key="H4" value="29.304389850352447" />
-      <entry key="D1" value="108.89423620142774" />
-      <entry key="W1" value="148.79806494958962" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0" />
+      <entry key="S60" value="1.0" />
+      <entry key="M2" value="1.0" />
+      <entry key="M5" value="1.0" />
+      <entry key="M10" value="1.0" />
+      <entry key="M15" value="1.0" />
+      <entry key="M30" value="1.0" />
+      <entry key="H1" value="1.0" />
+      <entry key="H2" value="1.0" />
+      <entry key="H4" value="1.0" />
+      <entry key="D1" value="1.0" />
+      <entry key="W1" value="1.0" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
-      <entry key="S5" value="7.82236720273747E-139" />
-      <entry key="S10" value="8.847095752218875E-70" />
-      <entry key="S30" value="1.0611939464518928E-23" />
-      <entry key="S60" value="4.51970716292253E-12" />
-      <entry key="M2" value="3.445729449993693E-6" />
-      <entry key="M5" value="0.01242639065260382" />
-      <entry key="M10" value="0.19259075157726202" />
-      <entry key="M15" value="0.4807187066366111" />
-      <entry key="M30" value="1.2005699100559821" />
-      <entry key="H1" value="1.8976884242490222" />
-      <entry key="H2" value="2.385974230759272" />
-      <entry key="H4" value="2.6754181700305617" />
-      <entry key="D1" value="2.9432878468048598" />
-      <entry key="W1" value="2.991831804255022" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9138314502294005" />
-      <entry key="MS500" value="0.9821395952633915" />
-      <entry key="S2" value="0.995504677670617" />
-      <entry key="S5" value="0.9981994402866303" />
-      <entry key="S10" value="0.9990993145262547" />
-      <entry key="S30" value="0.9997462386182674" />
-      <entry key="S60" value="1.0066731217245732" />
-      <entry key="M2" value="1.082704564114725" />
-      <entry key="M5" value="1.5527933706222603" />
-      <entry key="M10" value="3.573475050665444" />
-      <entry key="M15" value="6.089346003068508" />
-      <entry key="M30" value="11.624336112036966" />
-      <entry key="H1" value="16.579181624490072" />
-      <entry key="H2" value="20.66579500993342" />
-      <entry key="H4" value="31.97938292425694" />
-      <entry key="D1" value="111.83742727653505" />
-      <entry key="W1" value="151.7898813553898" />
+      <entry key="MS100" value="3.643751971996039E-8" />
+      <entry key="MS500" value="0.03253192492762848" />
+      <entry key="S2" value="0.42469528589060596" />
+      <entry key="S5" value="0.7099552517531802" />
+      <entry key="S10" value="0.8425884236999581" />
+      <entry key="S30" value="0.944506960299699" />
+      <entry key="S60" value="0.9718574794174808" />
+      <entry key="M2" value="0.9858283214725984" />
+      <entry key="M5" value="0.994307044360953" />
+      <entry key="M10" value="0.9971494593895907" />
+      <entry key="M15" value="0.9980987356049185" />
+      <entry key="M30" value="0.9990489155216168" />
+      <entry key="H1" value="0.9995243446367961" />
+      <entry key="H2" value="0.999762144030667" />
+      <entry key="H4" value="0.9998810649425596" />
+      <entry key="D1" value="0.9999801765080255" />
+      <entry key="W1" value="0.9999971680485154" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -117,22 +118,15 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Joker/PycharmProjects/Demo",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/vm.hudasov/PycharmProjects/pythonProject",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.sync"
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Joker\PycharmProjects\Demo\tests\fixtures" />
-      <recent name="C:\Users\Joker\PycharmProjects\Demo\src" />
-    </key>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -149,23 +143,7 @@
       <option name="presentableId" value="Default" />
       <updated>1780912647017</updated>
     </task>
-    <task id="LOCAL-00001" summary="Почистил мусор">
-      <option name="closed" value="true" />
-      <created>1784482581487</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1784482581487</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="TerminalProjectNonSharedOptionsProvider">
-    <envs>
-      <env key="HTTP_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
-      <env key="HTTPS_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
-      <env key="ALL_PROXY" value="socks5h://Z3VriY3ctO:abSKgiJZht@91.196.163.57:1080" />
-    </envs>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -181,8 +159,15 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Почистил мусор" />
-    <option name="LAST_COMMIT_MESSAGE" value="Почистил мусор" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

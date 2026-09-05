@@ -13,18 +13,20 @@ class AuthPage(BasePage):
         self.click(AuthPageLocators.TEST_STAND_OPTION)
         time.sleep(1.0)
 
+    def change_stand_to_fix(self) -> None:
+        """Открывает спиннер стендов и переключает его на FIX"""
+        self.click(AuthPageLocators.STAND_SPINNER)
+        self.click(AuthPageLocators.FIX_STAND_OPTION)
+        time.sleep(1.0)
+
     def login_with_credentials(self, login_value: str = "proletariat1", password_value: str = "qwerty1!") -> None:
         """Заполняет поля логина и пароля с учетом двухэтапного флоу авторизации"""
         # Этап 1: Вводим логин и жмем первую стрелку
-        login_element = self.wait.until(EC.visibility_of_element_located(AuthPageLocators.LOGIN_FIELD))
-        login_element.clear()
-        login_element.send_keys(login_value)
+        self.type_in(AuthPageLocators.LOGIN_FIELD, login_value)
         self.click(AuthPageLocators.FIRST_NEXT_BUTTON)
 
         # Этап 2: Ждем появления поля пароля, заполняем его и жмем Вход
-        password_element = self.wait.until(EC.visibility_of_element_located(AuthPageLocators.PASSWORD_FIELD))
-        password_element.clear()
-        password_element.send_keys(password_value)
+        self.type_in(AuthPageLocators.PASSWORD_FIELD, password_value)
         self.click(AuthPageLocators.LOGIN_BUTTON)
         time.sleep(2.0)
 

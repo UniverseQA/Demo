@@ -22,5 +22,8 @@ class AuthPageLocators:
     # Элемент тестового стенда внутри открывшегося спиннера
     TEST_STAND_OPTION = (By.XPATH, "//*[@text='TEST']")
 
+    # Элемент тестового стенда внутри открывшегося спиннера
+    FIX_STAND_OPTION = (By.XPATH, "//*[@text='FIX']")
+
     # Кнопка "Назад" в левом верхнем углу тулбара авторизации
     TOOLBAR_BACK_BUTTON = (By.ID, "ru.tensor.sbis.sabyadmin.debug:id/top_navigation_btn_back")
